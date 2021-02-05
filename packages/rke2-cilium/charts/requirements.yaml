@@ -1,0 +1,7 @@
+dependencies:
+- import-values:
+  - defaults
+  name: cilium
+  repository: file://./charts/cilium
+- name: rke2-cilium-hard-defaults
+  repository: file://./charts/rke2-cilium-hard-defaults
