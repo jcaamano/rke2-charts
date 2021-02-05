@@ -1,0 +1,14 @@
+apiVersion: v2
+name: rke2-cilium
+home: https://cilium.io/
+version: 1.9.4
+appVersion: 1.9.4
+kubeVersion: ">= 1.12.0-0"
+description: eBPF-based Networking, Security, and Observability
+keywords:
+  - cilium
+sources:
+  - https://github.com/rancher/rke2-charts
+maintainers:
+  - name: Rancher Labs
+    email: charts@rancher.com

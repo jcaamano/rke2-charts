@@ -1,0 +1,233 @@
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-agent-daemonset.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-agent-daemonset.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-agent-daemonset.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-agent-daemonset.yaml	2021-02-08 14:38:47.471463747 +0100
+@@ -193,7 +193,7 @@
+ {{- with .Values.extraEnv }}
+ {{ toYaml . | trim | indent 8 }}
+ {{- end }}
+-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+         imagePullPolicy: {{ .Values.image.pullPolicy }}
+ {{- if .Values.cni.install }}
+         lifecycle:
+@@ -311,7 +311,7 @@
+ {{- range $type := .Values.monitor.eventTypes }}
+         - --type={{ $type }}
+ {{- end }}
+-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+         imagePullPolicy: {{ .Values.image.pullPolicy }}
+         volumeMounts:
+         - mountPath: /var/run/cilium
+@@ -331,7 +331,7 @@
+ {{- if and .Values.nodeinit.enabled (not (eq .Values.nodeinit.bootstrapFile "")) }}
+       - name: wait-for-node-init
+         command: ['sh', '-c', 'until stat {{ .Values.nodeinit.bootstrapFile }} > /dev/null 2>&1; do echo "Waiting on node-init to run..."; sleep 1; done']
+-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+         imagePullPolicy: {{ .Values.image.pullPolicy }}
+         volumeMounts:
+         - mountPath: {{ .Values.nodeinit.bootstrapFile }}
+@@ -369,7 +369,7 @@
+ {{- if .Values.extraEnv }}
+ {{ toYaml .Values.extraEnv | indent 8 }}
+ {{- end }}
+-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+         imagePullPolicy: {{ .Values.image.pullPolicy }}
+         name: clean-cilium-state
+         securityContext:
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-etcd-operator-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-etcd-operator-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-etcd-operator-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-etcd-operator-deployment.yaml	2021-02-08 14:38:47.511464021 +0100
+@@ -64,7 +64,7 @@
+           value: "revision"
+         - name: CILIUM_ETCD_META_ETCD_AUTO_COMPACTION_RETENTION
+           value: "25000"
+-        image: {{ .Values.etcd.image.repository }}:{{ .Values.etcd.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.etcd.image.repository }}:{{ .Values.etcd.image.tag }}
+         imagePullPolicy: {{ .Values.etcd.image.pullPolicy }}
+         name: cilium-etcd-operator
+       dnsPolicy: ClusterFirst
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-nodeinit-daemonset.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-nodeinit-daemonset.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-nodeinit-daemonset.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-nodeinit-daemonset.yaml	2021-02-08 14:38:47.519464077 +0100
+@@ -34,7 +34,7 @@
+ {{- end }}
+       containers:
+         - name: node-init
+-          image: {{ .Values.nodeinit.image.repository }}:{{ .Values.nodeinit.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.nodeinit.image.repository }}:{{ .Values.nodeinit.image.tag }}
+           imagePullPolicy: {{ .Values.nodeinit.image.pullPolicy }}
+           securityContext:
+             privileged: true
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-operator-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-operator-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-operator-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-operator-deployment.yaml	2021-02-08 14:38:47.531464160 +0100
+@@ -136,11 +136,11 @@
+           value: {{ $value }}
+ {{- end }}
+ {{- if .Values.eni }}
+-        image: {{ .Values.operator.image.repository }}-aws:{{ .Values.operator.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.operator.image.repository }}-aws:{{ .Values.operator.image.tag }}
+ {{- else if .Values.azure.enabled }}
+-        image: {{ .Values.operator.image.repository }}-azure:{{ .Values.operator.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.operator.image.repository }}-azure:{{ .Values.operator.image.tag }}
+ {{- else }}
+-        image: {{ .Values.operator.image.repository }}-generic:{{ .Values.operator.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.operator.image.repository }}-generic:{{ .Values.operator.image.tag }}
+ {{- end }}
+         imagePullPolicy: {{ .Values.operator.image.pullPolicy }}
+         name: cilium-operator
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-preflight-daemonset.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-preflight-daemonset.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-preflight-daemonset.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-preflight-daemonset.yaml	2021-02-08 14:38:47.555464324 +0100
+@@ -25,14 +25,14 @@
+ {{- end }}
+       initContainers:
+         - name: clean-cilium-state
+-          image: {{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
+           imagePullPolicy: {{ .Values.preflight.image.pullPolicy }}
+           command: ["/bin/echo"]
+           args:
+           - "hello"
+       containers:
+         - name: cilium-pre-flight-check
+-          image: {{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
+           imagePullPolicy: {{ .Values.preflight.image.pullPolicy }}
+           command: ["/bin/sh"]
+           args:
+@@ -68,7 +68,7 @@
+ 
+ {{- if ne .Values.preflight.tofqdnsPreCache "" }}
+         - name: cilium-pre-flight-fqdn-precache
+-          image: {{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
+           imagePullPolicy: {{ .Values.preflight.image.pullPolicy }}
+           name: cilium-pre-flight-fqdn-precache
+           command: ["/bin/sh"]
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-preflight-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/cilium-preflight-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/cilium-preflight-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/cilium-preflight-deployment.yaml	2021-02-08 14:38:47.559464353 +0100
+@@ -37,7 +37,7 @@
+       containers:
+ {{- if .Values.preflight.validateCNPs }}
+         - name: cnp-validator
+-          image: {{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.preflight.image.repository }}:{{ .Values.preflight.image.tag }}
+           imagePullPolicy: {{ .Values.preflight.image.pullPolicy }}
+           command: ["/bin/sh"]
+           args:
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/clustermesh-apiserver-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/clustermesh-apiserver-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/clustermesh-apiserver-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/clustermesh-apiserver-deployment.yaml	2021-02-08 14:38:47.591464573 +0100
+@@ -30,7 +30,7 @@
+       serviceAccount: clustermesh-apiserver
+       initContainers:
+       - name: etcd-init
+-        image: {{ .Values.clustermesh.apiserver.etcd.image.repository }}:{{ .Values.clustermesh.apiserver.etcd.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.clustermesh.apiserver.etcd.image.repository }}:{{ .Values.clustermesh.apiserver.etcd.image.tag }}
+         imagePullPolicy: {{ .Values.clustermesh.apiserver.etcd.image.pullPolicy }}
+         env:
+         - name: ETCDCTL_API
+@@ -67,7 +67,7 @@
+           name: etcd-data-dir
+       containers:
+       - name: etcd
+-        image: {{ .Values.clustermesh.apiserver.etcd.image.repository }}:{{ .Values.clustermesh.apiserver.etcd.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.clustermesh.apiserver.etcd.image.repository }}:{{ .Values.clustermesh.apiserver.etcd.image.tag }}
+         imagePullPolicy: {{ .Values.clustermesh.apiserver.etcd.image.pullPolicy }}
+         env:
+         - name: ETCDCTL_API
+@@ -96,7 +96,7 @@
+         - mountPath: /var/run/etcd
+           name: etcd-data-dir
+       - name: "apiserver"
+-        image: {{ .Values.clustermesh.apiserver.image.repository }}:{{ .Values.clustermesh.apiserver.image.tag }}
++        image: {{ template "system_default_registry" . }}{{ .Values.clustermesh.apiserver.image.repository }}:{{ .Values.clustermesh.apiserver.image.tag }}
+         imagePullPolicy: {{ .Values.clustermesh.apiserver.image.pullPolicy }}
+         command:
+           - /usr/bin/clustermesh-apiserver
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/_clustermesh-apiserver-generate-certs-job-spec.tpl packages/rke2-cilium/charts/charts/cilium/templates/_clustermesh-apiserver-generate-certs-job-spec.tpl
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/_clustermesh-apiserver-generate-certs-job-spec.tpl	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/_clustermesh-apiserver-generate-certs-job-spec.tpl	2021-02-08 14:38:47.439463526 +0100
+@@ -10,7 +10,7 @@
+       serviceAccountName: clustermesh-apiserver-generate-certs
+       containers:
+         - name: certgen
+-          image: {{ .Values.certgen.image.repository }}:{{ .Values.certgen.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.certgen.image.repository }}:{{ .Values.certgen.image.tag }}
+           imagePullPolicy: {{ .Values.certgen.image.pullPolicy }}
+           command:
+             - "/usr/bin/cilium-certgen"
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/_helpers.tpl packages/rke2-cilium/charts/charts/cilium/templates/_helpers.tpl
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/_helpers.tpl	2021-02-08 14:24:33.605473204 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/_helpers.tpl	2021-02-08 14:38:47.443463553 +0100
+@@ -122,3 +122,11 @@
+ tls.crt: {{ $cert.Cert | b64enc }}
+ tls.key: {{ $cert.Key | b64enc }}
+ {{- end }}
++  
++{{- define "system_default_registry" -}}
++{{- if .Values.global.systemDefaultRegistry -}}
++{{- printf "%s/" .Values.global.systemDefaultRegistry -}}
++{{- else -}}
++{{- "" -}}
++{{- end }}
++{{- end }}
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/_hubble-generate-certs-job-spec.tpl packages/rke2-cilium/charts/charts/cilium/templates/_hubble-generate-certs-job-spec.tpl
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/_hubble-generate-certs-job-spec.tpl	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/_hubble-generate-certs-job-spec.tpl	2021-02-08 14:38:47.451463609 +0100
+@@ -10,7 +10,7 @@
+       serviceAccountName: hubble-generate-certs
+       containers:
+         - name: certgen
+-          image: {{ .Values.certgen.image.repository }}:{{ .Values.certgen.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.certgen.image.repository }}:{{ .Values.certgen.image.tag }}
+           imagePullPolicy: {{ .Values.certgen.image.pullPolicy }}
+           command:
+             - "/usr/bin/cilium-certgen"
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/hubble-relay-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/hubble-relay-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/hubble-relay-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/hubble-relay-deployment.yaml	2021-02-08 14:38:47.683465207 +0100
+@@ -45,7 +45,7 @@
+ {{- end }}
+       containers:
+         - name: hubble-relay
+-          image: {{ .Values.hubble.relay.image.repository }}:{{ .Values.hubble.relay.image.tag }}
++          image: {{ template "system_default_registry" . }}{{ .Values.hubble.relay.image.repository }}:{{ .Values.hubble.relay.image.tag }}
+           imagePullPolicy: {{ .Values.hubble.relay.image.pullPolicy }}
+           command:
+             - hubble-relay
+diff -x '*.tgz' -x '*.lock' -uNr packages/rke2-cilium/charts/charts/cilium-original/templates/hubble-ui-deployment.yaml packages/rke2-cilium/charts/charts/cilium/templates/hubble-ui-deployment.yaml
+--- packages/rke2-cilium/charts/charts/cilium-original/templates/hubble-ui-deployment.yaml	2021-02-04 01:17:41.000000000 +0100
++++ packages/rke2-cilium/charts/charts/cilium/templates/hubble-ui-deployment.yaml	2021-02-08 14:38:47.715465428 +0100
+@@ -40,7 +40,7 @@
+ {{- end }}
+       containers:
+         - name: frontend
+-          image: "{{ .Values.hubble.ui.frontend.image.repository }}:{{ .Values.hubble.ui.frontend.image.tag }}"
++          image: "{{ template "system_default_registry" . }}{{ .Values.hubble.ui.frontend.image.repository }}:{{ .Values.hubble.ui.frontend.image.tag }}"
+           imagePullPolicy: {{ .Values.hubble.ui.frontend.image.pullPolicy }}
+           ports:
+             - containerPort: 8080
+@@ -48,7 +48,7 @@
+           resources:
+             {{- toYaml .Values.hubble.ui.frontend.resources | trim | nindent 12 }}
+         - name: backend
+-          image: "{{ .Values.hubble.ui.backend.image.repository }}:{{ .Values.hubble.ui.backend.image.tag }}"
++          image: "{{ template "system_default_registry" . }}{{ .Values.hubble.ui.backend.image.repository }}:{{ .Values.hubble.ui.backend.image.tag }}"
+           imagePullPolicy: {{ .Values.hubble.ui.backend.image.pullPolicy }}
+           env:
+             - name: EVENTS_SERVER_PORT
+@@ -61,7 +61,7 @@
+           resources:
+             {{- toYaml .Values.hubble.ui.backend.resources  | trim | nindent 12 }}
+         - name: proxy
+-          image: "{{ .Values.hubble.ui.proxy.image.repository }}:{{ .Values.hubble.ui.proxy.image.tag }}"
++          image: "{{ template "system_default_registry" . }}{{ .Values.hubble.ui.proxy.image.repository }}:{{ .Values.hubble.ui.proxy.image.tag }}"
+           imagePullPolicy: {{ .Values.hubble.ui.proxy.image.pullPolicy }}
+           ports:
+             - containerPort: 8081

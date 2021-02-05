@@ -1,0 +1,8 @@
+dependencies: # A list of the chart requirements (optional)
+  - name: cilium
+    repository: https://helm.cilium.io
+    version: 1.9.4
+  - name: rke2-cilium-hard-defaults
+    version: 1.0.0
+    import-values:
+      - defaults
