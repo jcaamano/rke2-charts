@@ -1,0 +1,4 @@
+dependencies:
+- condition: rke2-multus.enabled
+  name: rke2-multus
+  repository: file://./charts/rke2-multus
