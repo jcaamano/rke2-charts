@@ -1,0 +1,37 @@
+operator:
+  image:
+    repository: quay.io/openshift/origin-sriov-network-operator
+    tag: 4.8.0
+
+cni:
+  image:
+    repository: quay.io/openshift/origin-sriov-cni 
+    tag: 4.8.0
+
+cni_infiniband:
+  image:
+    repository: quay.io/openshift/origin-sriov-infiniband-cni
+    tag: 4.8.0
+
+device_plugin:
+  image:
+    repository: quay.io/openshift/origin-sriov-network-device-plugin
+    tag: 4.8.0
+
+injector:
+  image:
+    repository: quay.io/openshift/origin-sriov-dp-admission-controller
+    tag: 4.8.0
+
+config_daemon:
+  image:
+    repository: quay.io/openshift/origin-sriov-network-config-daemon
+    tag: 4.8.0
+
+webhook:
+  image:
+    repository: quay.io/openshift/origin-sriov-network-webhook
+    tag: 4.8.0
+
+global:
+  systemDefaultRegistry: ""

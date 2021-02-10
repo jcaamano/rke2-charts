@@ -1,0 +1,6 @@
+image:
+  repository: nfvpe/multus
+  tag: v3.4
+
+global:
+  systemDefaultRegistry: ""

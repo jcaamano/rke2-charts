@@ -1,0 +1,3 @@
+dependencies:
+- name: rke2-multus
+  repository: file://../../rke2-multus/charts

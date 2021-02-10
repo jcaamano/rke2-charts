@@ -1,0 +1,4 @@
+packageVersion: 01
+generateCRDChart:
+  enabled: true
+
