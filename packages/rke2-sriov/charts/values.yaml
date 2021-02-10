@@ -1,0 +1,37 @@
+operator:
+  image:
+    repository: rancher/hardened-sriov-network-operator
+    tag: release-4.8-build20210310
+
+cni:
+  image:
+    repository: rancher/hardened-sriov-cni
+    tag: v2.6-build20210310
+
+cni_infiniband:
+  image:
+    repository: rancher/hardened-ib-sriov-cni
+    tag: v1.0.0-build20210310
+
+device_plugin:
+  image:
+    repository: rancher/hardened-sriov-network-device-plugin
+    tag: v3.3.1-build20210310
+
+injector:
+  image:
+    repository: rancher/hardened-sriov-network-resources-injector
+    tag: v1-build20210310
+
+config_daemon:
+  image:
+    repository: rancher/hardened-sriov-network-config-daemon
+    tag: release-4.8-build20210310
+
+webhook:
+  image:
+    repository: rancher/hardened-sriov-network-resources-injector
+    tag: v1-build20210310
+
+global:
+  systemDefaultRegistry: ""
