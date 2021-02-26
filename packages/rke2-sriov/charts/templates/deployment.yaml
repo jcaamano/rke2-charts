@@ -5,8 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   # Add fields here
-  enableInjector: true
-  enableOperatorWebhook: true
+  enableInjector: false
+  enableOperatorWebhook: false
   configDaemonNodeSelector: {feature.node.kubernetes.io/network-sriov.capable: "true"}
 ---
 apiVersion: apps/v1
