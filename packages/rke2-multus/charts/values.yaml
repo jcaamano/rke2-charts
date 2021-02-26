@@ -1,6 +1,6 @@
 image:
-  repository: nfvpe/multus
-  tag: v3.4
+  repository: rancher/hardened-multus-cni
+  tag: v3.6
 
 global:
   systemDefaultRegistry: ""
