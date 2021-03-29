@@ -1,7 +1,7 @@
 operator:
   image:
     repository: rancher/hardened-sriov-network-operator
-    tag: release-4.8-build20210310
+    tag: release-4.8-build20210329
 
 cni:
   image:
@@ -26,7 +26,7 @@ injector:
 config_daemon:
   image:
     repository: rancher/hardened-sriov-network-config-daemon
-    tag: release-4.8-build20210310
+    tag: release-4.8-build20210329
 
 webhook:
   image:
