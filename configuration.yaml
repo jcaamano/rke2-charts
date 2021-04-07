@@ -1,6 +1,6 @@
 template: source
 
 validate:
-- url: https://github.com/rancher/rke2-charts.git
+- url: https://github.com/jcaamano/rke2-charts.git
   branch: main
   dropReleaseCandidates: true
