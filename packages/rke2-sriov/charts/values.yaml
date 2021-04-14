@@ -1,7 +1,7 @@
 operator:
   image:
     repository: rancher/hardened-sriov-network-operator
-    tag: release-4.8-build20210329
+    tag: v1.0.0-build20210414
 
 cni:
   image:
@@ -30,8 +30,8 @@ config_daemon:
 
 webhook:
   image:
-    repository: rancher/hardened-sriov-network-resources-injector
-    tag: v1-build20210310
+    repository: rancher/hardened-sriov-network-webhook
+    tag: v1.0.0-build20210414
 
 global:
   systemDefaultRegistry: ""
