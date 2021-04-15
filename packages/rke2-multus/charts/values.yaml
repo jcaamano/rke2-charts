@@ -1,6 +1,13 @@
-image:
-  repository: rancher/hardened-multus-cni
-  tag: v3.7.1-build20210415
+multus:
+  image:
+    repository: mbuilsuse/cni-multus
+    tag: testing1-20210415
+
+cniplugins:
+  image:
+    repository: rancher/hardened-cni-plugins
+    tag: v0.9.1-build20210414
+  skipcnis: flannel 
 
 global:
   systemDefaultRegistry: ""
