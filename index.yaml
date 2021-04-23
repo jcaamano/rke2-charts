@@ -738,4 +738,50 @@ entries:
     urls:
     - assets/rke2-metrics-server/rke2-metrics-server-2.11.100-build2021022300.tgz
     version: 2.11.100-build2021022300
+  rke2-multus:
+  - apiVersion: v1
+    appVersion: v3.7.1
+    created: "2021-04-23T12:14:05.631341469Z"
+    description: Multus CNI enables attaching multiple network interfaces to pods
+      in Kubernetes.
+    digest: 868592a9b6d662499538fb9226a9b6853671cf0aa2131a02d763cc0deda68c51
+    home: https://github.com/k8snetworkplumbingwg/multus-cni
+    icon: https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/doc/images/Multus.png
+    maintainers:
+    - email: charts@rancher.com
+      name: Rancher Labs
+    name: rke2-multus
+    sources:
+    - https://github.com/k8snetworkplumbingwg/multus-cni
+    urls:
+    - assets/rke2-multus/rke2-multus-v3.7.1-build2021041601.tgz
+    version: v3.7.1-build2021041601
+  rke2-sriov:
+  - apiVersion: v1
+    appVersion: v1.0.0
+    created: "2021-04-23T12:14:05.632135205Z"
+    description: Install SR-IOV operator, cni and device polugin.
+    digest: 4a8ad578cbb6412b494289b7af9475de955121f583fba337f82a6c3ce7f73a6b
+    home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    keywords:
+    - sr-iov
+    maintainers:
+    - email: charts@rancher.com
+      name: Rancher Labs
+    name: rke2-sriov
+    sources:
+    - https://github.com/rancher/rke2-charts
+    urls:
+    - assets/rke2-sriov/rke2-sriov-v1.0.0-build2021041401.tgz
+    version: v1.0.0-build2021041401
+  rke2-sriov-crd:
+  - apiVersion: v1
+    created: "2021-04-23T12:14:05.631603781Z"
+    description: Installs the CRDs for rke2-sriov.
+    digest: cdcb8d5d2f3722f8a5c91b8538dbb726303f9febd36e8494ca8ae4fc589c78a3
+    name: rke2-sriov-crd
+    type: application
+    urls:
+    - assets/rke2-sriov/rke2-sriov-crd-v1.0.001.tgz
+    version: v1.0.001
 generated: "2021-02-25T17:59:12.927381-08:00"
