@@ -17,9 +17,18 @@ spec:
       - operator: Exists
         effect: NoSchedule
       serviceAccountName: multus
+      initContainers:
+      - name: cni-plugins
+        image: {{ template "system_default_registry" . }}{{ .Values.cniplugins.image.repository }}:{{ .Values.cniplugins.image.tag }}
+        volumeMounts:
+        - name: cnibin
+          mountPath: /host/opt/cni/bin
+        env:
+        - name: SKIP_CNI_BINARIES
+          value: {{ template "system_default_registry" . }}{{ .Values.cniplugins.skipcnis }}
       containers:
       - name: kube-multus
-        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ template "system_default_registry" . }}{{ .Values.multus.image.repository }}:{{ .Values.multus.image.tag }}
         command: ["/entrypoint.sh"]
         args:
         - "--multus-conf-file=auto"
